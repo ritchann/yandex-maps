@@ -1,5 +1,4 @@
 import React from 'react';
-/// <reference path="ymaps.d.ts" />
 
 import './map.scss';
 
@@ -10,10 +9,11 @@ interface Props {
 
 export const Map: React.FC<Props> = ({ center, zoom }) => {
   let myMap;
-  ymaps.ready().then(() => {
+  ymaps.ready(function () {
     myMap = new ymaps.Map('map', {
       center: center,
       zoom: zoom,
+    
     });
   });
 
