@@ -3,18 +3,14 @@ import React from 'react';
 import './map.scss';
 
 interface Props {
-  center: number[];
-  zoom: number;
+  mapState: ymaps.MapState;
 }
 
-export const Map: React.FC<Props> = ({ center, zoom }) => {
+export const Map: React.FC<Props> = ({ mapState }) => {
   let myMap;
+  
   ymaps.ready(function () {
-    myMap = new ymaps.Map('map', {
-      center: center,
-      zoom: zoom,
-    
-    });
+    myMap = new ymaps.Map('map', mapState);
   });
 
   return (

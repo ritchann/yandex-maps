@@ -1,10 +1,10 @@
-declare module ymaps {
+module ymaps {
   export class Map {
     constructor(parentElement: object | string, state: MapState, options?: MapOptions);
   }
 
   export class MapState {
-    behaviors?: string[];
+    behaviors?: string[] = ['default'];
     bounds?: number[][];
     center?: number[];
     controls?: string[] = ['default'];
@@ -14,18 +14,20 @@ declare module ymaps {
   }
 
   export class MapOptions {
-    autoFitToViewport: 'none' | 'ifNull' | 'always';
-    avoidFractionalZoom: boolean;
-    exitFullscreenByEsc: boolean;
-    fullscreenZIndex: number;
-    mapAutoFocus: boolean;
-    maxAnimationZoomDifference: number;
-    maxZoom: number;
-    minZoom: number;
-    nativeFullscreen: boolean;
-    projection: ymaps.interfaces.IProjection;
-    restrictMapArea: boolean | number[][];
-    suppressObsoleteBrowserNotifier: boolean;
-    yandexMapAutoSwitch: boolean;
+    autoFitToViewport: 'none' | 'ifNull' | 'always' = 'ifNull';
+    avoidFractionalZoom: boolean = true;
+    exitFullscreenByEsc: boolean = true;
+    fullscreenZIndex: number = 10000;
+    mapAutoFocus: boolean = true;
+    maxAnimationZoomDifference: number = 5;
+    maxZoom: number = 23;
+    minZoom: number = 0;
+    nativeFullscreen: boolean = false;
+    projection: ymaps.interfaces.IProjection = ymaps.projection.wgs84Mercator;
+    restrictMapArea: boolean | number[][] = false;
+    suppressMapOpenBlock: boolean = false;
+    suppressObsoleteBrowserNotifier: boolean = false;
+    yandexMapAutoSwitch: boolean = true;
+    yandexMapDisablePoiInteractivity: boolean = false;
   }
 }

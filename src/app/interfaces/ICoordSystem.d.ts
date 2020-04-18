@@ -17,6 +17,7 @@ namespace ymaps.interfaces {
     distance: number;
     pathFunction: (part: number) => ICoordSystemSolveProblemResultPathFunctionResult;
   }
+  
   interface ICoordSystemSolveProblemResultPathFunctionResult {
     point: number[];
     direction: number[];

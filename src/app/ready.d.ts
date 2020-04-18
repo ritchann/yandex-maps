@@ -1,12 +1,10 @@
-declare module ymaps {
-    export function ready(parameters:ReadyParameters):vow.Promise;
+module ymaps {
+  export function ready(successCallback?: Function | ReadyParameters, errorCallback?: Function, context?: object): ymaps.vow.Promise;
 
-    export function ready(successCallback:(ns?:ymaps) => any, errorCallback?:Function, context?:any):vow.Promise;
-
-    export class ReadyParameters {
-        require:string[];
-        successCallback:(ns?:ymaps) => any; 
-        errorCallback:Function;
-        context:any;
-    }
+  export class ReadyParameters {
+    require: string[];
+    successCallback: Function;
+    errorCallback: Function;
+    context: object; 
+  }
 }

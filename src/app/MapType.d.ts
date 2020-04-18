@@ -1,4 +1,4 @@
-declare module ymaps {
+module ymaps {
   export class MapType {
     constructor(name: string, layers: Function[] | string[]);
 
