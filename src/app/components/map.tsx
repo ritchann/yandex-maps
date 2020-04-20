@@ -7,11 +7,12 @@ interface Props {
 }
 
 export const Map: React.FC<Props> = ({ mapState }) => {
-  let myMap;
+  let myMap:ymaps.Map;
   
   ymaps.ready(function () {
     myMap = new ymaps.Map('map', mapState);
   });
+
 
   return (
     <div className="map" id="map">

@@ -1,6 +1,14 @@
 module ymaps {
-  export class Map {
+  export class Map extends interfaces.IDomEventEmitter {
     constructor(parentElement: object | string, state: MapState, options?: MapOptions);
+
+    action: map.action.Manager;
+    ballon: map.Balloon;
+    behaviors: map.behavior.Manager;
+    container: map.Container;
+    controls: control.Manager;
+
+    //this
   }
 
   export class MapState {

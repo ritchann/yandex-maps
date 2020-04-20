@@ -1,10 +1,12 @@
 namespace ymaps.behavior {
   interface RightMouseButtonMagnifierStatic {
-    new (options?: RightMouseButtonMagnifierOptions): RightMouseButtonMagnifier;
+    new (
+      options?: RightMouseButtonMagnifierOptions = defaultRightMouseButtonMagnifierOptions
+    ): RightMouseButtonMagnifier;
   }
 
   interface RightMouseButtonMagnifier extends ymaps.interfaces.IBehavior {}
-  
+
   interface RightMouseButtonMagnifierOptions {
     actionCursor?: string;
     duration?: number;
