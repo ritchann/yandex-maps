@@ -7,7 +7,11 @@ module ymaps {
     behaviors: map.behavior.Manager;
     container: map.Container;
     controls: control.Manager;
-
+    converter: map.Converter;
+    copyrights: map.Copyrights;
+    cursors: util.cursor.Manager;
+    events:event.Manager;
+    geoObjects:map.GeoObjects;
     //this
   }
 

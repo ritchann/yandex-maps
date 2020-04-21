@@ -15,6 +15,7 @@ export const Map: React.FC<Props> = ({ mapState }) => {
 
 
   return (
+    
     <div className="map" id="map">
       {myMap}
     </div>
