@@ -14,6 +14,7 @@ module ymaps {
     reloadData(): void;
     setUrlTemplate(urlTemplate: string): void;
   }
+  
   export class LoadingObjectManagerOptions {
     clusterize: boolean = false;
     loadTileSize: number = 256;
