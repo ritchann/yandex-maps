@@ -1,6 +1,6 @@
-namespace ymaps.multiRouter.masstransit {
+namespace ymaps.multiRouter.pedestrian {
   interface RouteModel extends interfaces.IEventEmitter {
-    multiRoute: multiRouter.MultiRouteModel;
+    multiRoute: MultiRouteModel;
     properties: data.Manager;
 
     destroy(): void;
