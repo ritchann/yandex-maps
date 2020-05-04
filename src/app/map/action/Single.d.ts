@@ -9,7 +9,7 @@ namespace ymaps.map.action {
 
   interface SingleTickOptions {
     callback?: Function;
-    center?: number;
+    center?: number[];
     checkZoomRange?: boolean;
     duration?: number;
     globalPixelCenter?: number[];
