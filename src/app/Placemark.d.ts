@@ -27,6 +27,9 @@ module ymaps {
   }
 
   export class PlacemarkOptions {
+    preset?: string;
+    iconColor?: string;
+    iconLayout?: string;
     cursor?: string = 'pointer';
     draggable?: boolean = false;
     hasBalloon?: boolean = true;

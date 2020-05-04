@@ -3,14 +3,11 @@ import React from 'react';
 import './map.scss';
 
 interface Props {
-  geometry?:number[];
-  propeties?: ymaps.PlacemarkProperties;
+  geometry?: number[];
+  properties?: ymaps.PlacemarkProperties;
+  options?: ymaps.PlacemarkOptions;
 }
 
-export const Placemark: React.FC<Props> = ({ geometry, propeties }) => {
-  return (
-    <div key='placemark' >
-      
-    </div>
-  );
+export const Placemark: React.FC<Props> = () => {
+  return <Placemark />;
 };

@@ -1,25 +1,22 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, ReactElement } from 'react';
 
 import './map.scss';
 
 interface Props {
   state: ymaps.MapState;
   options?: ymaps.MapOptions;
-  placemarkGeometry?: number[];
-  placemarkPropeties?: ymaps.PlacemarkProperties;
-  children?: {
-    props?: any[];
-  }[];
+  children?: ReactElement[];
 }
 
-export const Map: React.FC<Props> = ({ state, options, placemarkGeometry, placemarkPropeties, children }) => {
+export const Map: React.FC<Props> = ({ state, options, children }) => {
   let myMap: ymaps.Map;
 
   ymaps.ready(function () {
     myMap = new ymaps.Map('map', state, options);
-    //let test = new ymaps.Placemark(children['props']['geometry']);
-   // myMap.geoObjects.add(test);
-   console.log(children);
+    React.Children.toArray(children).forEach((x) => {
+      if (x.type['name'] === 'Placemark')
+        myMap.geoObjects.add(new ymaps.Placemark(x.props['geometry'], x.props['properties'],x.props['options']));
+    });
   });
 
   return (
