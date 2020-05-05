@@ -1,6 +1,6 @@
 namespace ymaps.control {
   interface ListBoxItemStatic {
-    new (parameters?: string | ListBoxItemParameters): ListBoxItemParameters;
+    new (parameters?: string | ListBoxItemParameters): ListBoxItem;
   }
 
   interface ListBoxItem extends interfaces.ICustomizable, interfaces.ISelectableControl {
@@ -8,10 +8,13 @@ namespace ymaps.control {
     state: data.Manager;
 
     getMap(): ymaps.Map;
+    getParent(): interfaces.IControlParent | null;
+    setParent(parent: interfaces.IControlParent | null): interfaces.IChildOnMap;
   }
 
   interface ListBoxItemParameters {
     data?: ListBoxItemParametersData;
+    items?: interfaces.IControl[];
     options?: ListBoxItemParametersOptions;
     state?: ListBoxItemParametersState;
   }
