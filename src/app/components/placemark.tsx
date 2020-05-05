@@ -1,11 +1,10 @@
 import React from 'react';
 
-import './map.scss';
-
 interface Props {
   geometry?: number[];
   properties?: ymaps.PlacemarkProperties;
   options?: ymaps.PlacemarkOptions;
+  open?: boolean;
 }
 
 export const Placemark: React.FC<Props> = () => {

@@ -27,6 +27,7 @@ module ymaps {
   }
 
   export class PlacemarkOptions {
+    balloonCloseButton?: boolean = true;
     preset?: string;
     iconColor?: string;
     iconLayout?: string;

@@ -1,26 +1,28 @@
-import React, { useEffect, ReactElement } from 'react';
-
-import './map.scss';
+import React, { ReactElement } from 'react';
 
 interface Props {
   state: ymaps.MapState;
   options?: ymaps.MapOptions;
   children?: ReactElement[];
+  className?: string;
 }
 
-export const Map: React.FC<Props> = ({ state, options, children }) => {
+export const Map: React.FC<Props> = ({ state, options, children, className }) => {
   let myMap: ymaps.Map;
 
   ymaps.ready(function () {
     myMap = new ymaps.Map('map', state, options);
     React.Children.toArray(children).forEach((x) => {
-      if (x.type['name'] === 'Placemark')
-        myMap.geoObjects.add(new ymaps.Placemark(x.props['geometry'], x.props['properties'],x.props['options']));
+      if (x.type['name'] === 'Placemark') {
+        let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], x.props['options']);
+        myMap.geoObjects.add(placemark);
+        if (x.props['open']) placemark.balloon.open();
+      }
     });
   });
 
   return (
-    <div className="map" id="map">
+    <div className={className} id="map">
       {myMap}
     </div>
   );
