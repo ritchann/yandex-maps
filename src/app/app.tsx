@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 
 import { Map } from './components/map';
 import { Placemark } from './components/placemark';
 import { ListBox } from './components/ListBox';
-import './app.scss';
 import { ListBoxItem } from './components/listBoxItem';
+import './app.scss';
 
 export const App: React.FC = () => {
   const mapState: ymaps.MapState = { center: [56, 43], zoom: 8, controls: ['smallMapDefaultSet'] };
@@ -20,7 +20,13 @@ export const App: React.FC = () => {
   };
 
   return (
-    <Map className="map" state={mapState} options={mapOptions}>
+    <Map
+      className="map"
+      state={mapState}
+      options={mapOptions}
+      templateNewGeoObject={{
+        data: { contentBody: '<button id="test" onClick={()=>myFunction()} onclick="myFunction();">Hello</button>' },
+      }}>
       <Placemark
         geometry={placemarkGeometry}
         properties={placemarkPropeties}
