@@ -1,6 +1,7 @@
-import React, { ReactElement } from 'react';
+import React, { ReactElement, useEffect } from 'react';
 
 interface Props {
+  parametrsApi: ymaps.ParametrsApi;
   state: ymaps.MapState;
   options?: ymaps.MapOptions;
   children?: ReactElement[];
@@ -13,6 +14,7 @@ interface Props {
 }
 
 export const Map: React.FC<Props> = ({
+  parametrsApi,
   state,
   options,
   children,
@@ -22,33 +24,50 @@ export const Map: React.FC<Props> = ({
 }) => {
   let myMap: ymaps.Map;
 
-  ymaps.ready(function () {
-    myMap = new ymaps.Map('map', state, options);
+  useEffect(() => {
+    var elem = document.createElement('script');
+    elem.type = 'text/javascript';
+    const src = `https://api-maps.yandex.ru/2.1/?apikey=${parametrsApi.apikey}&lang=${parametrsApi.lang.language}_${parametrsApi.lang.region}`;
+    if (parametrsApi.coordorder) src.concat(`&coordorder=${parametrsApi.coordorder}`);
+    if (parametrsApi.load) src.concat(`&load=${parametrsApi.load}`);
+    if (parametrsApi.mode) src.concat(`&mode=${parametrsApi.mode}`);
+    if (parametrsApi.csp) src.concat(`&csp=${parametrsApi.csp}`);
+    if (parametrsApi.ns) src.concat(`&ns=${parametrsApi.ns}`);
+    if (parametrsApi.onload) src.concat(`&onload=${parametrsApi.onload}`);
+    if (parametrsApi.onerror) src.concat(`&onerror=${parametrsApi.onerror}`);
+    elem.src = src;
+    document.getElementsByTagName('body')[0].appendChild(elem);
+  }, []);
 
-    React.Children.toArray(children).forEach((x) => {
-      if (x.type['name'] === 'Placemark') {
-        let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], x.props['options']);
-        myMap.geoObjects.add(placemark);
-        if (x.props['open']) placemark.balloon.open();
-      }
+  setTimeout(() => {
+    ymaps.ready(function () {
+      myMap = new ymaps.Map('map', state, options);
 
-      if (x.type['name'] === 'ListBox') {
-        let items: ymaps.control.ListBoxItem[] = [];
-        React.Children.toArray(x.props['children']).forEach((item) =>
-          items.push(new ymaps.control.ListBoxItem(item.props['parameters']))
-        );
-        let listBox = new ymaps.control.ListBox({ data: x.props['data'], items: items });
-        myMap.controls.add(listBox);
-      }
+      React.Children.toArray(children).forEach((x) => {
+        if (x.type['name'] === 'Placemark') {
+          let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], x.props['options']);
+          myMap.geoObjects.add(placemark);
+          if (x.props['open']) placemark.balloon.open();
+        }
+
+        if (x.type['name'] === 'ListBox') {
+          let items: ymaps.control.ListBoxItem[] = [];
+          React.Children.toArray(x.props['children']).forEach((item) =>
+            items.push(new ymaps.control.ListBoxItem(item.props['parameters']))
+          );
+          let listBox = new ymaps.control.ListBox({ data: x.props['data'], items: items });
+          myMap.controls.add(listBox);
+        }
+      });
+
+      myMap.events.add('click', (e) => {
+        const coords = e.get('coords');
+        addNewGeoObject(coords);
+        myMap.ballon = new ymaps.map.Balloon(myMap);
+        myMap.ballon.open(coords, templateNewGeoObject.data, templateNewGeoObject.options);
+      });
     });
-
-    myMap.events.add('click', (e) => {
-      const coords = e.get('coords');
-      addNewGeoObject(coords);
-      myMap.ballon = new ymaps.map.Balloon(myMap);
-      myMap.ballon.open(coords, templateNewGeoObject.data, templateNewGeoObject.options);
-    });
-  });
+  }, 2000);
 
   return (
     <div className={className} id="map">

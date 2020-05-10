@@ -14,6 +14,10 @@ export const App: React.FC = () => {
   const placemarkPropeties: ymaps.PlacemarkProperties = {
     balloonContentFooter: `<div class='footer'>Footer</div>`,
   };
+  const mapParametrsApi: ymaps.ParametrsApi = {
+    apikey: 'key',
+    lang: { language: 'ru', region: 'RU' },
+  };
 
   const placemarkOptions: ymaps.PlacemarkOptions = {
     preset: 'islands#circleDotIcon',
@@ -21,6 +25,7 @@ export const App: React.FC = () => {
 
   return (
     <Map
+      parametrsApi={mapParametrsApi}
       className="map"
       state={mapState}
       options={mapOptions}
