@@ -23,11 +23,10 @@ export const Map: React.FC<Props> = ({
   templateNewGeoObject,
 }) => {
   let myMap: ymaps.Map;
-
   useEffect(() => {
     var elem = document.createElement('script');
     elem.type = 'text/javascript';
-    const src = `https://api-maps.yandex.ru/2.1/?apikey=${parametrsApi.apikey}&lang=${parametrsApi.lang.language}_${parametrsApi.lang.region}`;
+    const src = `https://api-maps.yandex.ru/2.1/?apikey=${parametrsApi.apikey}&lang=${parametrsApi.lang}`;
     if (parametrsApi.coordorder) src.concat(`&coordorder=${parametrsApi.coordorder}`);
     if (parametrsApi.load) src.concat(`&load=${parametrsApi.load}`);
     if (parametrsApi.mode) src.concat(`&mode=${parametrsApi.mode}`);
@@ -52,22 +51,29 @@ export const Map: React.FC<Props> = ({
 
         if (x.type['name'] === 'ListBox') {
           let items: ymaps.control.ListBoxItem[] = [];
-          React.Children.toArray(x.props['children']).forEach((item) =>
-            items.push(new ymaps.control.ListBoxItem(item.props['parameters']))
-          );
+          React.Children.toArray(x.props['children']).forEach((item) => {
+            const listBoxItem = new ymaps.control.ListBoxItem(item.props['parameters']);
+            items.push(listBoxItem);
+          });
           let listBox = new ymaps.control.ListBox({ data: x.props['data'], items: items });
           myMap.controls.add(listBox);
+
+          listBox.events.add(['select', 'deselect'], (e) => {
+            let listBoxItem = e.get('target');
+            x.props.onChange({ field: listBoxItem.data.get('content'), selected: listBoxItem.isSelected() });
+          });
         }
       });
 
-      myMap.events.add('click', (e) => {
-        const coords = e.get('coords');
-        addNewGeoObject(coords);
-        myMap.ballon = new ymaps.map.Balloon(myMap);
-        myMap.ballon.open(coords, templateNewGeoObject.data, templateNewGeoObject.options);
-      });
+      if (addNewGeoObject)
+        myMap.events.add('click', (e) => {
+          const coords = e.get('coords');
+          addNewGeoObject(coords);
+          myMap.ballon = new ymaps.map.Balloon(myMap);
+          myMap.ballon.open(coords, templateNewGeoObject.data, templateNewGeoObject.options);
+        });
     });
-  }, 2000);
+  }, 1000);
 
   return (
     <div className={className} id="map">
