@@ -25,7 +25,7 @@ export const App: React.FC = () => {
   };
 
   useEffect(() => {
-    geocode({ apikey: 'def62d81-e99f-4395-8b66-dbf1a1d64c1a', geocode: 'Нижний Новгород', format: 'json' });
+    geocode({ apikey: 'def62d81-e99f-4395-8b66-dbf1a1d64c1a', geocode: 'Нижний Новгород, максима', format: 'json' });
   }, []);
 
   return (
