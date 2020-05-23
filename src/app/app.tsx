@@ -4,17 +4,15 @@ import { Map } from './components/map';
 import { Placemark } from './components/placemark';
 import { ListBox } from './components/ListBox';
 import { ListBoxItem } from './components/listBoxItem';
-import { useGeocode, httpGeocodeObject } from './httpGeocoding/useGeocode';
 import './app.scss';
 
 export const App: React.FC = () => {
-  const [result, setResult] = useState<httpGeocodeObject>();
   const mapState: ymaps.MapState = { center: [56, 43], zoom: 8, controls: ['smallMapDefaultSet'] };
   const mapOptions: ymaps.MapOptions = {};
   const placemarkGeometry: number[] = [56, 43];
   const placemarkGeometry2: number[] = [56, 43.5];
   const placemarkPropeties: ymaps.PlacemarkProperties = {
-    balloonContentBody: '<div id="myId"><button class="test" name="test">Button</button></div>',
+    balloonContentBody: '<div name="test"><button id="test">Button</button></div>',
     balloonContentFooter: `<div class='footer'>Footer</div>`,
   };
   const mapParametrsApi: ymaps.ParametrsApi = {
@@ -23,14 +21,10 @@ export const App: React.FC = () => {
   };
   const placemarkOptions: ymaps.PlacemarkOptions = {
     preset: 'islands#circleDotIcon',
+    balloonContentLayoutTemplate: "<div><button id='counter-button'>+1</button><div id='label'>Нажми</div></div>",
+    onClickIds: ['counter-button','label'],
   };
-
-  const geocode = useGeocode();
-
-  useEffect(() => {
-      geocode('Нижний Новгород, максима', 'def62d81-e99f-4395-8b66-dbf1a1d64c1a', 'json').then((v) => setResult(v));
-  }, []);
-
+  
   return (
     <Map
       parametrsApi={mapParametrsApi}
@@ -41,11 +35,11 @@ export const App: React.FC = () => {
         data: { contentBody: '<button>Hello</button>' },
       }}>
       <Placemark
+        onClick={(v) => console.log(v)}
         geometry={placemarkGeometry}
         properties={placemarkPropeties}
-        options={placemarkOptions}
-        open></Placemark>
-      <Placemark geometry={placemarkGeometry2} properties={placemarkPropeties}></Placemark>
+        options={placemarkOptions}></Placemark>
+      <Placemark geometry={placemarkGeometry2} properties={placemarkPropeties} options={placemarkOptions}></Placemark>
       <ListBox onChange={() => {}} data={{ content: 'Выберите город' }}>
         <ListBoxItem parameters="Москва"></ListBoxItem>
         <ListBoxItem parameters="Нижний Новгород"></ListBoxItem>

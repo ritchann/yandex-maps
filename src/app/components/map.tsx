@@ -44,9 +44,31 @@ export const Map: React.FC<Props> = ({
 
       React.Children.toArray(children).forEach((x) => {
         if (x.type['name'] === 'Placemark') {
-          let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], x.props['options']);
-          myMap.geoObjects.add(placemark);
-          if (x.props['open']) placemark.balloon.open();
+          const options = x.props['options'] as ymaps.PlacemarkOptions;
+          if (options?.balloonContentLayoutTemplate && options?.onClickIds.length > 0) {
+            const template = options.balloonContentLayoutTemplate;
+            let BalloonContentLayout: Function = ymaps.templateLayoutFactory.createClass(template, {
+              build: function () {
+                this.constructor.superclass.build.call(this);
+                if (x.props?.onClick)
+                  options.onClickIds.forEach((id) => {
+                    document.getElementById(id).addEventListener('click', () => {
+                      x.props.onClick(id);
+                    });
+                  });
+              },
+            });
+            let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], {
+              ...options,
+              balloonContentLayout: BalloonContentLayout,
+            });
+            myMap.geoObjects.add(placemark);
+            if (x.props['open']) placemark.balloon.open();
+          } else {
+            let placemark = new ymaps.Placemark(x.props['geometry'], x.props['properties'], x.props['options']);
+            myMap.geoObjects.add(placemark);
+            if (x.props['open']) placemark.balloon.open();
+          }
         }
 
         if (x.type['name'] === 'ListBox') {

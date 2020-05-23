@@ -20,13 +20,17 @@ module ymaps {
     iconContent?: string;
     iconCaption?: string;
     hintContent?: string;
-    balloonContent?: string;
+    balloonContent?: string|Function;
     balloonContentHeader?: string;
     balloonContentBody?: string;
     balloonContentFooter?: string;
   }
 
   export class PlacemarkOptions {
+    onClickIds?:string[];
+    balloonContentLayoutTemplate?:string;
+    balloonPanelMaxMapArea?:number;
+    balloonContentLayout?:Function;
     balloonCloseButton?: boolean = true;
     preset?: string;
     iconColor?: string;
