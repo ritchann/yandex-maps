@@ -1,13 +1,14 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useState, useMemo } from 'react';
 
 import { Map } from './components/map';
 import { Placemark } from './components/placemark';
 import { ListBox } from './components/ListBox';
 import { ListBoxItem } from './components/listBoxItem';
-import { geocode } from './httpGeocoding/geocode';
+import { useGeocode, httpGeocodeObject } from './httpGeocoding/useGeocode';
 import './app.scss';
 
 export const App: React.FC = () => {
+  const [result, setResult] = useState<httpGeocodeObject>();
   const mapState: ymaps.MapState = { center: [56, 43], zoom: 8, controls: ['smallMapDefaultSet'] };
   const mapOptions: ymaps.MapOptions = {};
   const placemarkGeometry: number[] = [56, 43];
@@ -24,8 +25,10 @@ export const App: React.FC = () => {
     preset: 'islands#circleDotIcon',
   };
 
+  const geocode = useGeocode();
+
   useEffect(() => {
-    geocode({ apikey: 'def62d81-e99f-4395-8b66-dbf1a1d64c1a', geocode: 'Нижний Новгород, максима', format: 'json' });
+      geocode('Нижний Новгород, максима', 'def62d81-e99f-4395-8b66-dbf1a1d64c1a', 'json').then((v) => setResult(v));
   }, []);
 
   return (

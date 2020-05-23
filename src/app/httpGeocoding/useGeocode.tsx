@@ -1,39 +1,36 @@
-import { useEffect, useCallback } from 'react';
+import { useCallback } from 'react';
 
-export interface Props {
-  geocode: string | number[];
-  apikey: string;
-  sco?: 'longlat' | 'latlong';
-  kind?: 'house' | 'street' | 'metro' | 'district' | 'locality';
-  rspn?: '0' | '1';
-  ll?: number[];
-  spn?: number[];
-  bbox?: number[];
-  format?: 'xml' | 'json';
-  results?: number;
-  skip?: number;
-  lang?: 'ru_RU' | 'uk_UA' | 'be_BY' | 'en_RU' | 'en_US' | 'tr_TR';
-}
+export const useGeocode = () => {
+  async function fetchData(url: string) {
+    const res = await fetch(url);
+    return res
+      .json()
+      .then((res) => res)
+      .then((data) => data.response as httpGeocodeObject);
+  }
 
-export const geocode = ({
-  geocode,
-  apikey,
-  sco = 'longlat',
-  kind,
-  rspn = '0',
-  ll,
-  spn,
-  format = 'xml',
-  results = 10,
-  skip = 0,
-}: Props) => {
-  const result = `https://geocode-maps.yandex.ru/1.x/?apikey=${apikey}&geocode=${geocode}&format=${format}`;
-  let obj: httpGeocodeObject;
+  const getGeocode = useCallback(
+    (
+      geocode: string | number[],
+      apikey: string,
+      format?: 'xml' | 'json',
+      sco?: 'longlat' | 'latlong',
+      kind?: 'house' | 'street' | 'metro' | 'district' | 'locality',
+      rspn?: '0' | '1',
+      ll?: number[],
+      spn?: number[],
+      bbox?: number[],
+      results?: number,
+      skip?: number,
+      lang?: 'ru_RU' | 'uk_UA' | 'be_BY' | 'en_RU' | 'en_US' | 'tr_TR'
+    ) => {
+      const url = `https://geocode-maps.yandex.ru/1.x/?apikey=${apikey}&geocode=${geocode}&format=${format}`;
+      return fetchData(url);
+    },
+    []
+  );
 
-  fetch(result)
-    .then((response) => response.json())
-    .then((responseData) => responseData)
-    .then((data) => (obj = data.response));
+  return getGeocode;
 };
 
 export class httpGeocodeObject {
