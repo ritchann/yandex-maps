@@ -5,7 +5,7 @@ interface Props {
   properties?: ymaps.PlacemarkProperties;
   options?: ymaps.PlacemarkOptions;
   open?: boolean;
-  onClick?: (id:string) => void;
+  onClick?: (id: string) => void;
 }
 
 export const Placemark: React.FC<Props> = () => {

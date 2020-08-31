@@ -5,7 +5,7 @@ interface Props {
   items?: ymaps.control.ListBoxItemParameters | string[];
   options?: ymaps.control.ListBoxParametersOptions;
   state?: ymaps.control.ListBoxParametersState;
-  onChange: (value: { field: string; selected: boolean }) => void;
+  onChange?: (value: string[]) => void;
 }
 
 export const ListBox: React.FC<Props> = () => {

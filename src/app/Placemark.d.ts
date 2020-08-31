@@ -17,16 +17,18 @@ module ymaps {
   }
 
   export class PlacemarkProperties {
+    id?:number;
     iconContent?: string;
     iconCaption?: string;
     hintContent?: string;
-    balloonContent?: string|Function;
+    balloonContent?: string;
     balloonContentHeader?: string;
     balloonContentBody?: string;
     balloonContentFooter?: string;
   }
 
   export class PlacemarkOptions {
+    typeForFilter?:string;
     onClickIds?:string[];
     balloonContentLayoutTemplate?:string;
     balloonPanelMaxMapArea?:number;

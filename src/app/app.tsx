@@ -22,20 +22,13 @@ export const App: React.FC = () => {
   const placemarkOptions: ymaps.PlacemarkOptions = {
     preset: 'islands#circleDotIcon',
     balloonContentLayoutTemplate: "<div><button id='counter-button'>+1</button><div id='label'>Нажми</div></div>",
-    onClickIds: ['counter-button','label'],
+    onClickIds: ['counter-button', 'label'],
   };
-  
+
   return (
-    <Map
-      parametrsApi={mapParametrsApi}
-      className="map"
-      state={mapState}
-      options={mapOptions}
-      templateNewGeoObject={{
-        data: { contentBody: '<button>Hello</button>' },
-      }}>
+    <Map parametrsApi={mapParametrsApi} className="map" state={mapState} options={mapOptions}>
       <Placemark
-        onClick={(v) => console.log(v)}
+        onClick={()=>{}}
         geometry={placemarkGeometry}
         properties={placemarkPropeties}
         options={placemarkOptions}></Placemark>
